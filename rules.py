@@ -78,10 +78,10 @@ while(dead==False):
             dead = True
 
     screen.blit(background_image, [0, 0])
-    screen.blit(player1,[x1,y1])
-    screen.blit(player2,[x2,y2])
-    screen.blit(player3,[x3,y3])
-    screen.blit(player4,[x4,y4])
-    screen.blit(player5,[x5,y5])
+    screen.blit(player1,[x1,y1-50])
+    screen.blit(player2,[x2,y2-50])
+    screen.blit(player3,[x3,y3-50])
+    screen.blit(player4,[x4,y4-50])
+    screen.blit(player5,[x5,y5-50])
     pygame.display.flip()
     clock.tick(clock_tick_rate)
