@@ -109,6 +109,7 @@ while(dead==False):
 
 sgraph = {}
 def map():
+    global sgraph
     cord_node = []
     arr = []
     with open('SCOTMAP.txt','r') as f:
