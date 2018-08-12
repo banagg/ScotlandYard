@@ -1,13 +1,4 @@
-#! /usr/bin/python3
-
-# Character Encoding: UTF-8
-
-#
-
-# Here we provide the necessary imports.
-
-# The basic GUI widgets are located in QtWidgets module. 
-
+import rules
 from PyQt5 import QtCore, QtGui, QtWidgets
 import os, sys
 from PyQt5.QtWidgets import *
@@ -124,11 +115,43 @@ ui.setupUi(MainWindow)
 scene = QGraphicsScene()
 ui.graphicsView.setScene(scene)
 
+list = rules.start()
+x1 = int(list[0][0])
+y1 = int(list[0][1])
+
+x2 = int(list[1][0])
+y2 = int(list[1][1])
+
+x3 = int(list[2][0])
+y3 = int(list[2][1])
+
+x4 = int(list[3][0])
+y4 = int(list[3][1])
+
+x5 = int(list[4][0])
+y5 = int(list[4][1])
+
+xx = int(list[5][0])
+xy = int(list[5][1])
+
 pix1 = QPixmap(os.getcwd() + "/resources/images/map.jpg")
-pixmapItem1 = scene.addPixmap(pix1)
 pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
+pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.jpg")
+pix4 = QPixmap(os.getcwd() + "/resources/images/flag3.jpg")
+pix5 = QPixmap(os.getcwd() + "/resources/images/flag4.jpg")
+pix6 = QPixmap(os.getcwd() + "/resources/images/flag5.jpg")
+pixmapItem1 = scene.addPixmap(pix1)
 pixmapItem2 = scene.addPixmap(pix2)
-pixmapItem2.setOffset(500,600)
+pixmapItem3 = scene.addPixmap(pix3)
+pixmapItem4 = scene.addPixmap(pix4)
+pixmapItem5 = scene.addPixmap(pix5)
+pixmapItem6 = scene.addPixmap(pix6)
+
+pixmapItem2.setOffset(x1,y1-50)
+pixmapItem2.setOffset(x2,y2-50)
+pixmapItem2.setOffset(x3,y3-50)
+pixmapItem2.setOffset(x4,y4-50)
+pixmapItem2.setOffset(x5,y5-50)
 
 MainWindow.show()  # The show() method displays the widget on the screen.
 
