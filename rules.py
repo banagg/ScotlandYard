@@ -1,8 +1,9 @@
 import collections
 import random
-# initialize game engine
+
+cord_node = []
 def start():
-    cord_node = []
+    global cord_node
     arr = []
     with open('SCOTPOS.txt','r') as f:
         for line in f:
@@ -22,45 +23,17 @@ def start():
     start5 = random_start[4]
     mr_x = random_start[5]
 
-    cord1 = (cord_node[start1][1],cord_node[start1][2])
-    x1 =int(cord1[0])
-    y1 = int(cord1[1])
-    arr.append((x1,y1))
-
-    cord2 = (cord_node[start2][1],cord_node[start2][2])
-    x2 =int(cord2[0])
-    y2 = int(cord2[1])
-    arr.append((x2,y2))
-
-
-    cord3 = (cord_node[start3][1],cord_node[start3][2])
-    x3 =int(cord3[0])
-    y3 = int(cord3[1])
-    arr.append((x3,y3))
-
-
-    cord4 = (cord_node[start4][1],cord_node[start4][2])
-    x4 =int(cord4[0])
-    y4 = int(cord4[1])
-    arr.append((x4,y4))
-
-
-    cord5 = (cord_node[start5][1],cord_node[start5][2])
-    x5 =int(cord5[0])
-    y5 = int(cord5[1])
-    arr.append((x5,y5))
-
-    cord_mr_x = (cord_node[mr_x][1],cord_node[mr_x][2])
-    xx =int(cord_mr_x[0])
-    yx = int(cord_mr_x[1])
-    arr.append((xx,yx))
+    arr.append(cord_node[start1])
+    arr.append(cord_node[start2])
+    arr.append(cord_node[start3])
+    arr.append(cord_node[start4])
+    arr.append(cord_node[start5])
+    arr.append(cord_node[mr_x])
     return arr
 
-sgraph = {}
 def map():
-    global sgraph
+    sgraph = {}
     cord_node = []
-    global sgraph
     arr = []
     with open('SCOTMAP.txt','r') as f:
         for line in f:
@@ -76,14 +49,30 @@ def map():
         w = cord_node[i][2]
         graph.setdefault(u,[]).append((v,w))
     sgraph = collections.OrderedDict(sorted(graph.items()))
-    print(sgraph)
-#map()
+    return sgraph
 
-def poss_moves(curr_pos):
-    global sgraph
+
+card_det = []
+for i in range(5):
+    card_det.append((10,8,4)) # order of card is taxi bus underground
+card_x = (4,3,3,2,5) # order is taxi bus underground double move and black
+
+def poss_moves(curr_pos,det_no):
+    rem_taxi = card_det[det_no-1][0]
+    rem_bus = card_det[det_no-1][1]
+    rem_und = card_det[det_no-1][2]
+    graph = map()
     lis = []
-    #length = len(sgraph[curr_pos])
-    lis = sgraph[curr_pos]
-    return lis
-#list = poss_moves('123')
-#print(list)
+    lis = graph[curr_pos]
+    m = []
+    for i in range(len(lis)):
+        mode = lis[i][1]
+        if mode == 'T' and rem_taxi>0:
+            m.append(lis[i])
+        if mode == 'B' and rem_bus>0:
+            m.append(lis[i])
+        if mode == 'U' and rem_und>0:
+            m.append(lis[i])
+    return m
+ans = poss_moves('123',5)
+print(ans)
