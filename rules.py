@@ -2,8 +2,7 @@ import collections
 import random
 
 cord_node = []
-def start():
-    global cord_node
+def cord():
     arr = []
     with open('SCOTPOS.txt','r') as f:
         for line in f:
@@ -11,8 +10,15 @@ def start():
             for word in line.split():
                 list.append(word)
             cord = tuple(list)
-            cord_node.append(cord)          
+            cord_node.append(cord)         
+cord()
 
+def conv(node):
+    return ((cord_node[node][1],cord_node[node][2]))
+
+
+def start():
+    arr = []
     start_station = [103,112,34,155,94,117,132,53,174,198,50,91,26,29,141,13,138,197]
     num = 6
     random_start = random.sample(start_station, num)
@@ -22,7 +28,6 @@ def start():
     start4 = random_start[3]
     start5 = random_start[4]
     mr_x = random_start[5]
-
     arr.append(cord_node[start1])
     arr.append(cord_node[start2])
     arr.append(cord_node[start3])
@@ -57,7 +62,7 @@ for i in range(5):
     card_det.append((10,8,4)) # order of card is taxi bus underground
 card_x = (4,3,3,2,5) # order is taxi bus underground double move and black
 
-def poss_moves(curr_pos,det_no):
+def poss_mov_det(curr_pos,det_no):
     rem_taxi = card_det[det_no-1][0]
     rem_bus = card_det[det_no-1][1]
     rem_und = card_det[det_no-1][2]
@@ -74,5 +79,5 @@ def poss_moves(curr_pos,det_no):
         if mode == 'U' and rem_und>0:
             m.append(lis[i])
     return m
-ans = poss_moves('123',5)
-print(ans)
+#print(ans)
+

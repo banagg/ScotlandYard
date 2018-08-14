@@ -1,3 +1,3 @@
 import rules
-lis = rules.start()
-print(lis)
+print(rules.conv(123))
+print(rules.start())
