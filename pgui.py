@@ -116,23 +116,23 @@ scene = QGraphicsScene()
 ui.graphicsView.setScene(scene)
 
 list = rules.start()
-x1 = int(list[0][1])
-y1 = int(list[0][2])
+x1 = int(list[0][0])
+y1 = int(list[0][1])
 
-x2 = int(list[1][1])
-y2 = int(list[1][2])
+x2 = int(list[1][0])
+y2 = int(list[1][1])
 
-x3 = int(list[2][1])
-y3 = int(list[2][2])
+x3 = int(list[2][0])
+y3 = int(list[2][1])
 
-x4 = int(list[3][1])
-y4 = int(list[3][2])
+x4 = int(list[3][0])
+y4 = int(list[3][1])
 
-x5 = int(list[4][1])
-y5 = int(list[4][2])
+x5 = int(list[4][0])
+y5 = int(list[4][1])
 
-xx = int(list[5][1])
-xy = int(list[5][2])
+xx = int(list[5][0])
+xy = int(list[5][1])
 
 pix1 = QPixmap(os.getcwd() + "/resources/images/map.jpg")
 pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
