@@ -119,7 +119,7 @@ def start_game():
     list = rules.start()
     x1 = int(list[0][1])
     y1 = int(list[0][2])
-
+    print(x1,y1)
     x2 = int(list[1][1])
     y2 = int(list[1][2])
 
