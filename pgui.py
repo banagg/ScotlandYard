@@ -107,6 +107,47 @@ class Ui_MainWindow(object):
         self.actionPlayer_v_Player.setText(_translate("MainWindow", "Player v Player"))
         self.actionPlayer_v_Computer.setText(_translate("MainWindow", "Player v Computer"))
 
+def start_game():
+    list = rules.start()
+    x1 = int(list[0][1])
+    y1 = int(list[0][2])
+
+    x2 = int(list[1][1])
+    y2 = int(list[1][2])
+
+    x3 = int(list[2][1])
+    y3 = int(list[2][2])
+
+    x4 = int(list[3][1])
+    y4 = int(list[3][2])
+
+    x5 = int(list[4][1])
+    y5 = int(list[4][2])
+
+    xx = int(list[5][1])
+    xy = int(list[5][2])
+
+    pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
+    pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.gif")
+    pix4 = QPixmap(os.getcwd() + "/resources/images/flag3.gif")
+    pix5 = QPixmap(os.getcwd() + "/resources/images/flag4.gif")
+    pix6 = QPixmap(os.getcwd() + "/resources/images/flag5.gif")
+    pixmapItem2 = scene.addPixmap(pix2)
+    pixmapItem3 = scene.addPixmap(pix3)
+    pixmapItem4 = scene.addPixmap(pix4)
+    pixmapItem5 = scene.addPixmap(pix5)
+    pixmapItem6 = scene.addPixmap(pix6)
+
+    pixmapItem2.setOffset(x1,y1-50)
+    pixmapItem3.setOffset(x2,y2-50)
+    pixmapItem4.setOffset(x3,y3-50)
+    pixmapItem5.setOffset(x4,y4-50)
+    pixmapItem6.setOffset(x5,y5-50)
+    ui.pushButton.setEnabled(True)
+    ui.pushButton_2.setEnabled(True)
+    ui.pushButton_3.setEnabled(True)
+    ui.pushButton_4.setEnabled(False)
+
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
 ui = Ui_MainWindow()
@@ -114,46 +155,14 @@ ui.setupUi(MainWindow)
 
 scene = QGraphicsScene()
 ui.graphicsView.setScene(scene)
-
-list = rules.start()
-x1 = int(list[0][1])
-y1 = int(list[0][2])
-
-x2 = int(list[1][1])
-y2 = int(list[1][2])
-
-x3 = int(list[2][1])
-y3 = int(list[2][2])
-
-x4 = int(list[3][1])
-y4 = int(list[3][2])
-
-x5 = int(list[4][1])
-y5 = int(list[4][2])
-
-xx = int(list[5][1])
-xy = int(list[5][2])
-
 pix1 = QPixmap(os.getcwd() + "/resources/images/map.jpg")
-pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
-pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.gif")
-pix4 = QPixmap(os.getcwd() + "/resources/images/flag3.gif")
-pix5 = QPixmap(os.getcwd() + "/resources/images/flag4.gif")
-pix6 = QPixmap(os.getcwd() + "/resources/images/flag5.gif")
 pixmapItem1 = scene.addPixmap(pix1)
-pixmapItem2 = scene.addPixmap(pix2)
-pixmapItem3 = scene.addPixmap(pix3)
-pixmapItem4 = scene.addPixmap(pix4)
-pixmapItem5 = scene.addPixmap(pix5)
-pixmapItem6 = scene.addPixmap(pix6)
 
-pixmapItem2.setOffset(x1,y1-50)
-pixmapItem3.setOffset(x2,y2-50)
-pixmapItem4.setOffset(x3,y3-50)
-pixmapItem5.setOffset(x4,y4-50)
-pixmapItem6.setOffset(x5,y5-50)
+ui.pushButton.setEnabled(False)
+ui.pushButton_2.setEnabled(False)
+ui.pushButton_3.setEnabled(False)
+ui.pushButton_4.clicked.connect(start_game)
 
 MainWindow.show()  # The show() method displays the widget on the screen.
-
 
 sys.exit(app.exec_())  # Finally, we enter the mainloop of the application.
