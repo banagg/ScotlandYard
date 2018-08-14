@@ -115,8 +115,14 @@ class Ui_MainWindow(object):
         self.actionPlayer_v_Player.setText(_translate("MainWindow", "Player v Player"))
         self.actionPlayer_v_Computer.setText(_translate("MainWindow", "Player v Computer"))
 
+list = rules.start()
+
+def det_moves(pos_trans):
+    for x in range(len(pos_trans)):
+        s = pos_trans[x][0] + pos_trans[x][1]
+        ui.comboBox.addItem(s)
+
 def start_game():
-    list = rules.start()
     x1 = int(list[0][1])
     y1 = int(list[0][2])
 
@@ -157,6 +163,9 @@ def start_game():
     ui.pushButton_4.setEnabled(False)
     ui.comboBox.setEnabled(True)
 
+    det_moves(rules.poss_mov_det(list[0][0],1))
+
+
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
 ui = Ui_MainWindow()
@@ -170,8 +179,12 @@ pixmapItem1 = scene.addPixmap(pix1)
 ui.pushButton.setEnabled(False)
 ui.pushButton_2.setEnabled(False)
 ui.pushButton_3.setEnabled(False)
-ui.pushButton_4.clicked.connect(start_game)
 ui.comboBox.setEnabled(False)
+ui.pushButton_4.clicked.connect(start_game)
+
+#Game has started
+val = True
+#print(list[0][0])
 
 MainWindow.show()  # The show() method displays the widget on the screen.
 
