@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
         self.pushButton.setSizePolicy(sizePolicy)
         self.pushButton.setMinimumSize(QtCore.QSize(400, 0))
         self.pushButton.setObjectName("pushButton")
-        self.gridLayout.addWidget(self.pushButton, 1, 3, 1, 1)
+        self.gridLayout.addWidget(self.pushButton, 1, 4, 1, 1)
         self.pushButton_2 = QtWidgets.QPushButton(self.centralWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -53,7 +53,15 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.pushButton_4, 1, 2, 1, 1)
         self.graphicsView = QtWidgets.QGraphicsView(self.centralWidget)
         self.graphicsView.setObjectName("graphicsView")
-        self.gridLayout.addWidget(self.graphicsView, 0, 0, 1, 4)
+        self.gridLayout.addWidget(self.graphicsView, 0, 0, 1, 5)
+        self.comboBox = QtWidgets.QComboBox(self.centralWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.comboBox.sizePolicy().hasHeightForWidth())
+        self.comboBox.setSizePolicy(sizePolicy)
+        self.comboBox.setObjectName("comboBox")
+        self.gridLayout.addWidget(self.comboBox, 1, 3, 1, 1)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 19))
@@ -107,6 +115,43 @@ class Ui_MainWindow(object):
         self.actionPlayer_v_Player.setText(_translate("MainWindow", "Player v Player"))
         self.actionPlayer_v_Computer.setText(_translate("MainWindow", "Player v Computer"))
 
+def start_game():
+    list = rules.start()
+    x1 = int(list[0][0])
+    y1 = int(list[0][1])
+
+    x2 = int(list[1][0])
+    y2 = int(list[1][1])
+
+    x3 = int(list[2][0])
+    y3 = int(list[2][1])
+
+    x4 = int(list[3][0])
+    y4 = int(list[3][1])
+
+    x5 = int(list[4][0])
+    y5 = int(list[4][1])
+
+    xx = int(list[5][0])
+    xy = int(list[5][1])
+
+    pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
+    pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.gif")
+    pix4 = QPixmap(os.getcwd() + "/resources/images/flag3.gif")
+    pix5 = QPixmap(os.getcwd() + "/resources/images/flag4.gif")
+    pix6 = QPixmap(os.getcwd() + "/resources/images/flag5.gif")
+    pixmapItem2 = scene.addPixmap(pix2)
+    pixmapItem3 = scene.addPixmap(pix3)
+    pixmapItem4 = scene.addPixmap(pix4)
+    pixmapItem5 = scene.addPixmap(pix5)
+    pixmapItem6 = scene.addPixmap(pix6)
+
+    pixmapItem2.setOffset(x1,y1-50)
+    pixmapItem3.setOffset(x2,y2-50)
+    pixmapItem4.setOffset(x3,y3-50)
+    pixmapItem5.setOffset(x4,y4-50)
+    pixmapItem6.setOffset(x5,y5-50)
+
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
 ui = Ui_MainWindow()
@@ -114,46 +159,10 @@ ui.setupUi(MainWindow)
 
 scene = QGraphicsScene()
 ui.graphicsView.setScene(scene)
-
-list = rules.start()
-x1 = int(list[0][0])
-y1 = int(list[0][1])
-
-x2 = int(list[1][0])
-y2 = int(list[1][1])
-
-x3 = int(list[2][0])
-y3 = int(list[2][1])
-
-x4 = int(list[3][0])
-y4 = int(list[3][1])
-
-x5 = int(list[4][0])
-y5 = int(list[4][1])
-
-xx = int(list[5][0])
-xy = int(list[5][1])
-
 pix1 = QPixmap(os.getcwd() + "/resources/images/map.jpg")
-pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
-pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.gif")
-pix4 = QPixmap(os.getcwd() + "/resources/images/flag3.gif")
-pix5 = QPixmap(os.getcwd() + "/resources/images/flag4.gif")
-pix6 = QPixmap(os.getcwd() + "/resources/images/flag5.gif")
 pixmapItem1 = scene.addPixmap(pix1)
-pixmapItem2 = scene.addPixmap(pix2)
-pixmapItem3 = scene.addPixmap(pix3)
-pixmapItem4 = scene.addPixmap(pix4)
-pixmapItem5 = scene.addPixmap(pix5)
-pixmapItem6 = scene.addPixmap(pix6)
-
-pixmapItem2.setOffset(x1,y1-50)
-pixmapItem3.setOffset(x2,y2-50)
-pixmapItem4.setOffset(x3,y3-50)
-pixmapItem5.setOffset(x4,y4-50)
-pixmapItem6.setOffset(x5,y5-50)
+ui.pushButton_4.clicked.connect(start_game)
 
 MainWindow.show()  # The show() method displays the widget on the screen.
-
 
 sys.exit(app.exec_())  # Finally, we enter the mainloop of the application.
