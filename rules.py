@@ -80,5 +80,17 @@ def poss_mov_det(curr_pos,det_no):
         if mode == 'U' and rem_und>0:
             m.append(lis[i])
     return m
-#print(ans)
+
+def update(move,det_no):
+    mode = move.split(" ")
+    l = card_det[det_no-1]
+    lst = list(l)
+    if mode[1] == 'T':
+        lst[0] = lst[0]-1
+    if mode[1] == 'B':
+        lst[1] = lst[1]-1
+    if mode[1]=='U':
+        lst[2] = lst[2]-1
+    l = tuple(lst)
+    card_det[det_no-1] = l
 
