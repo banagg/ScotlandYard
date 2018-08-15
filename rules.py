@@ -53,6 +53,7 @@ def map():
         v = cord_node[i][1]
         w = cord_node[i][2]
         graph.setdefault(u,[]).append((v,w))
+        graph.setdefault(v,[]).append((u,w))
     sgraph = collections.OrderedDict(sorted(graph.items()))
     return sgraph
 

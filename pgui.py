@@ -119,8 +119,9 @@ list = rules.start()
 
 def det_moves(pos_trans):
     for x in range(len(pos_trans)):
-        s = pos_trans[x][0] + pos_trans[x][1]
+        s = pos_trans[x][0] + " " + pos_trans[x][1]
         ui.comboBox.addItem(s)
+    ui.pushButton.clicked.connect(play_move(rules.update(ui.comboBox.currentText()),1))
 
 def start_game():
     x1 = int(list[0][1])
