@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import os, sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -117,16 +118,36 @@ class Ui_MainWindow(object):
 
 list = rules.start()
 
-def det_moves(pos_trans):
+def play_move(num):
+    s = ui.comboBox.currentText()
+    t = s.split(" ")
+    u = rules.conv(int(t[0]))
+    pixmapItem2.setOffset(int(u[0]), int(u[1]) - 50)
+    rules.update(ui.comboBox.currentText(),num)
+    ui.comboBox.clear()
+
+def but_pushed():
+    global va
+    va = False
+
+
+def det_moves(pos_trans, num):
     for x in range(len(pos_trans)):
         s = pos_trans[x][0] + " " + pos_trans[x][1]
         ui.comboBox.addItem(s)
-    ui.pushButton.clicked.connect(play_move(rules.update(ui.comboBox.currentText()),1))
+    global va
+    while True:
+        ui.pushButton.clicked.connect(but_pushed)
+        QCoreApplication.processEvents()
+        if va == False:
+            break
+    va = True
+    play_move(int(num))
 
 def start_game():
     x1 = int(list[0][1])
     y1 = int(list[0][2])
-    print(x1,y1)
+
     x2 = int(list[1][1])
     y2 = int(list[1][2])
 
@@ -147,6 +168,13 @@ def start_game():
     pix4 = QPixmap(os.getcwd() + "/resources/images/flag3.gif")
     pix5 = QPixmap(os.getcwd() + "/resources/images/flag4.gif")
     pix6 = QPixmap(os.getcwd() + "/resources/images/flag5.gif")
+
+    global pixmapItem2
+    global pixmapItem3
+    global pixmapItem4
+    global pixmapItem5
+    global pixmapItem6
+    
     pixmapItem2 = scene.addPixmap(pix2)
     pixmapItem3 = scene.addPixmap(pix3)
     pixmapItem4 = scene.addPixmap(pix4)
@@ -164,7 +192,8 @@ def start_game():
     ui.pushButton_4.setEnabled(False)
     ui.comboBox.setEnabled(True)
 
-    det_moves(rules.poss_mov_det(list[0][0],1))
+    for x in range(5):
+        det_moves(rules.poss_mov_det(list[x][0],x),x)
 
 
 app = QtWidgets.QApplication(sys.argv)
@@ -174,6 +203,7 @@ ui.setupUi(MainWindow)
 
 scene = QGraphicsScene()
 ui.graphicsView.setScene(scene)
+
 pix1 = QPixmap(os.getcwd() + "/resources/images/map.jpg")
 pixmapItem1 = scene.addPixmap(pix1)
 
@@ -182,10 +212,8 @@ ui.pushButton_2.setEnabled(False)
 ui.pushButton_3.setEnabled(False)
 ui.comboBox.setEnabled(False)
 ui.pushButton_4.clicked.connect(start_game)
-
 #Game has started
-val = True
-#print(list[0][0])
+va = True
 
 MainWindow.show()  # The show() method displays the widget on the screen.
 
