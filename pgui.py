@@ -116,13 +116,22 @@ class Ui_MainWindow(object):
         self.actionPlayer_v_Player.setText(_translate("MainWindow", "Player v Player"))
         self.actionPlayer_v_Computer.setText(_translate("MainWindow", "Player v Computer"))
 
-list = rules.start()
+lis = rules.start()
 
 def play_move(num):
     s = ui.comboBox.currentText()
     t = s.split(" ")
     u = rules.conv(int(t[0]))
-    pixmapItem2.setOffset(int(u[0]), int(u[1]) - 50)
+    if num == 0:
+        pixmapItem2.setOffset(int(u[0]), int(u[1]) - 50)
+    elif num == 1:
+        pixmapItem3.setOffset(int(u[0]), int(u[1]) - 50)
+    elif num == 2:
+        pixmapItem4.setOffset(int(u[0]), int(u[1]) - 50)
+    elif num == 3:
+        pixmapItem5.setOffset(int(u[0]), int(u[1]) - 50)
+    else:
+        pixmapItem6.setOffset(int(u[0]), int(u[1]) - 50)
     rules.update(ui.comboBox.currentText(),num)
     ui.comboBox.clear()
 
@@ -142,26 +151,30 @@ def det_moves(pos_trans, num):
         if va == False:
             break
     va = True
+    l = list(lis[num])
+    l[0] = pos_trans[x][0]
+    t = tuple(l)
+    lis[num] = t
     play_move(int(num))
 
 def start_game():
-    x1 = int(list[0][1])
-    y1 = int(list[0][2])
+    x1 = int(lis[0][1])
+    y1 = int(lis[0][2])
 
-    x2 = int(list[1][1])
-    y2 = int(list[1][2])
+    x2 = int(lis[1][1])
+    y2 = int(lis[1][2])
 
-    x3 = int(list[2][1])
-    y3 = int(list[2][2])
+    x3 = int(lis[2][1])
+    y3 = int(lis[2][2])
 
-    x4 = int(list[3][1])
-    y4 = int(list[3][2])
+    x4 = int(lis[3][1])
+    y4 = int(lis[3][2])
 
-    x5 = int(list[4][1])
-    y5 = int(list[4][2])
+    x5 = int(lis[4][1])
+    y5 = int(lis[4][2])
 
-    xx = int(list[5][1])
-    xy = int(list[5][2])
+    xx = int(lis[5][1])
+    xy = int(lis[5][2])
 
     pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
     pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.gif")
@@ -192,8 +205,9 @@ def start_game():
     ui.pushButton_4.setEnabled(False)
     ui.comboBox.setEnabled(True)
 
-    for x in range(5):
-        det_moves(rules.poss_mov_det(list[x][0],x),x)
+    while True:
+        for x in range(5):
+            det_moves(rules.poss_mov_det(lis[x][0],x),x)
 
 
 app = QtWidgets.QApplication(sys.argv)
