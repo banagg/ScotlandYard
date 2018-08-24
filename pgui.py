@@ -28,14 +28,6 @@ class Ui_MainWindow(object):
         self.pushButton.setMinimumSize(QtCore.QSize(400, 0))
         self.pushButton.setObjectName("pushButton")
         self.gridLayout.addWidget(self.pushButton, 1, 4, 1, 1)
-        self.pushButton_2 = QtWidgets.QPushButton(self.centralWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushButton_2.sizePolicy().hasHeightForWidth())
-        self.pushButton_2.setSizePolicy(sizePolicy)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.gridLayout.addWidget(self.pushButton_2, 1, 1, 1, 1)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -51,7 +43,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.pushButton_4.sizePolicy().hasHeightForWidth())
         self.pushButton_4.setSizePolicy(sizePolicy)
         self.pushButton_4.setObjectName("pushButton_4")
-        self.gridLayout.addWidget(self.pushButton_4, 1, 2, 1, 1)
+        self.gridLayout.addWidget(self.pushButton_4, 1, 1, 1, 1)
         self.graphicsView = QtWidgets.QGraphicsView(self.centralWidget)
         self.graphicsView.setObjectName("graphicsView")
         self.gridLayout.addWidget(self.graphicsView, 0, 0, 1, 5)
@@ -63,6 +55,16 @@ class Ui_MainWindow(object):
         self.comboBox.setSizePolicy(sizePolicy)
         self.comboBox.setObjectName("comboBox")
         self.gridLayout.addWidget(self.comboBox, 1, 3, 1, 1)
+        self.label = QtWidgets.QLabel(self.centralWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
+        self.label.setSizePolicy(sizePolicy)
+        self.label.setMinimumSize(QtCore.QSize(150, 0))
+        self.label.setMaximumSize(QtCore.QSize(150, 16777215))
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 1, 2, 1, 1)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 1050, 19))
@@ -103,9 +105,9 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "Done"))
-        self.pushButton_2.setText(_translate("MainWindow", "Moves"))
         self.pushButton_3.setText(_translate("MainWindow", "Detectives"))
         self.pushButton_4.setText(_translate("MainWindow", "Start Game"))
+        self.label.setText(_translate("MainWindow", "TextLabel"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.menuGame_Mode.setTitle(_translate("MainWindow", "Game Mode"))
@@ -136,28 +138,25 @@ def play_move(num):
     ui.comboBox.clear()
 
 def but_pushed():
-    global va
-    va = False
-
+    ui.label.setText("Move is played")
 
 def det_moves(pos_trans, num):
     for x in range(len(pos_trans)):
         s = pos_trans[x][0] + " " + pos_trans[x][1]
         ui.comboBox.addItem(s)
-    global va
-    while True:
-        ui.pushButton.clicked.connect(but_pushed)
-        QCoreApplication.processEvents()
-        if va == False:
-            break
-    va = True
+    while ui.label.text() != "Move is played":
+        QApplication.processEvents()
+    ns = ui.comboBox.currentText()
+    nl = ns.split (" ")
     l = list(lis[num])
-    l[0] = pos_trans[x][0]
+    l[0] = nl[0]
     t = tuple(l)
     lis[num] = t
     play_move(int(num))
 
 def start_game():
+    ui.label.setEnabled(True)
+
     x1 = int(lis[0][1])
     y1 = int(lis[0][2])
 
@@ -187,7 +186,6 @@ def start_game():
     global pixmapItem4
     global pixmapItem5
     global pixmapItem6
-    
     pixmapItem2 = scene.addPixmap(pix2)
     pixmapItem3 = scene.addPixmap(pix3)
     pixmapItem4 = scene.addPixmap(pix4)
@@ -200,15 +198,15 @@ def start_game():
     pixmapItem5.setOffset(x4,y4-50)
     pixmapItem6.setOffset(x5,y5-50)
     ui.pushButton.setEnabled(True)
-    ui.pushButton_2.setEnabled(True)
     ui.pushButton_3.setEnabled(True)
     ui.pushButton_4.setEnabled(False)
     ui.comboBox.setEnabled(True)
 
-    while True:
+    for y in range(22):
         for x in range(5):
+            labeltext = "Move of Detective no." + str(x + 1)
+            ui.label.setText(labeltext)
             det_moves(rules.poss_mov_det(lis[x][0],x),x)
-
 
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
@@ -222,12 +220,18 @@ pix1 = QPixmap(os.getcwd() + "/resources/images/map.jpg")
 pixmapItem1 = scene.addPixmap(pix1)
 
 ui.pushButton.setEnabled(False)
-ui.pushButton_2.setEnabled(False)
 ui.pushButton_3.setEnabled(False)
 ui.comboBox.setEnabled(False)
-ui.pushButton_4.clicked.connect(start_game)
+ui.label.setText("Start the Game")
+ui.label.setEnabled(False)
 #Game has started
-va = True
+
+ui.pushButton_4.clicked.connect(start_game)
+ui.pushButton.clicked.connect(but_pushed)
+
+'''timer = QtCore.QTimer()
+timer.timeout.connect(start_game)
+timer.start(1000)'''
 
 MainWindow.show()  # The show() method displays the widget on the screen.
 
