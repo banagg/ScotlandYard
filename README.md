@@ -1,7 +1,7 @@
 # ScotlandYardv3.0
 
 
-This is the computer game for the popular board game Scotland Yard. The rules can be viewed [https://plentifun.com/rules-to-play-scotland-yard-board-game here]. The game consists of Mr. X as the server and the detectives as clients.
+This is the computer game for the popular board game Scotland Yard. The rules can be viewed [here](https://plentifun.com/rules-to-play-scotland-yard-board-game). The game consists of Mr. X as the server and the detectives as clients.
 
 The player who wants to play as Mr. X has to run mr_x_server.py and the detectives have to run det_client.py
 
