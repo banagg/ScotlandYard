@@ -4,7 +4,7 @@ import os, sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-
+import socket,pickle
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -119,23 +119,18 @@ class Ui_MainWindow(object):
         self.actionPlayer_v_Computer.setText(_translate("MainWindow", "Player v Computer"))
 
 lis = rules.start()
+lis1 = pickle.dumps(lis)
 
-def play_move(num):
-    s = ui.comboBox.currentText()
-    t = s.split(" ")
-    u = rules.conv(int(t[0]))
-    if num == 0:
-        pixmapItem2.setOffset(int(u[0]), int(u[1]) - 50)
-    elif num == 1:
-        pixmapItem3.setOffset(int(u[0]), int(u[1]) - 50)
-    elif num == 2:
-        pixmapItem4.setOffset(int(u[0]), int(u[1]) - 50)
-    elif num == 3:
-        pixmapItem5.setOffset(int(u[0]), int(u[1]) - 50)
-    else:
-        pixmapItem6.setOffset(int(u[0]), int(u[1]) - 50)
-    rules.update(ui.comboBox.currentText(),num)
+def play_move():
+    pixmapItem2.setOffset(int(lis[0][1]), int(lis[0][2]) - 50)
+    pixmapItem3.setOffset(int(lis[1][1]), int(lis[1][2]) - 50)
+    pixmapItem4.setOffset(int(lis[2][1]), int(lis[2][2]) - 50)
+    pixmapItem5.setOffset(int(lis[3][1]), int(lis[3][2]) - 50)
+    pixmapItem6.setOffset(int(lis[4][1]), int(lis[4][2]) - 50)
+    print('okay')
+#    rules.update(ui.comboBox.currentText(),num)
     ui.comboBox.clear()
+
 
 def but_pushed():
     ui.label.setText("Move is played")
@@ -154,14 +149,18 @@ def det_moves(pos_trans, num):
     lis[num] = t
     play_move(int(num))
 
-def start_game():
+
+def start_gui():
+    print("hghgj");
     ui.label.setEnabled(True)
 
     x1 = int(lis[0][1])
     y1 = int(lis[0][2])
+    print(x1,y1)
 
     x2 = int(lis[1][1])
     y2 = int(lis[1][2])
+    print(x2,y2)
 
     x3 = int(lis[2][1])
     y3 = int(lis[2][2])
@@ -174,7 +173,6 @@ def start_game():
 
     xx = int(lis[5][1])
     xy = int(lis[5][2])
-
     pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
     pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.gif")
     pix4 = QPixmap(os.getcwd() + "/resources/images/flag3.gif")
@@ -191,7 +189,6 @@ def start_game():
     pixmapItem4 = scene.addPixmap(pix4)
     pixmapItem5 = scene.addPixmap(pix5)
     pixmapItem6 = scene.addPixmap(pix6)
-
     pixmapItem2.setOffset(x1,y1-50)
     pixmapItem3.setOffset(x2,y2-50)
     pixmapItem4.setOffset(x3,y3-50)
@@ -202,11 +199,27 @@ def start_game():
     ui.pushButton_4.setEnabled(False)
     ui.comboBox.setEnabled(True)
 
-    for y in range(22):
-        for x in range(5):
-            labeltext = "Move of Detective no." + str(x + 1)
-            ui.label.setText(labeltext)
-            det_moves(rules.poss_mov_det(lis[x][0],x),x)
+
+def start_game():
+    client.send(lis1)
+    data1 = client.recv(10)
+    if data1==b'hey':
+    	start_gui()
+    data = client.recv(4096)
+    print(data)
+    global lis
+    #lis = pickle.loads(data)
+    #play_move()
+
+
+
+host = "192.168.43.201"
+port = 8079
+serverSocket=socket.socket()
+serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+serverSocket.bind((host,port))
+serverSocket.listen(5)
+(client,(ip,port)) = serverSocket.accept()
 
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
