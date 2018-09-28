@@ -122,13 +122,11 @@ lis = rules.start()
 lis1 = pickle.dumps(lis)
 
 def play_move():
-    pixmapItem2.setOffset(int(lis[0][1]), int(lis[0][2]) - 50)
-    pixmapItem3.setOffset(int(lis[1][1]), int(lis[1][2]) - 50)
-    pixmapItem4.setOffset(int(lis[2][1]), int(lis[2][2]) - 50)
-    pixmapItem5.setOffset(int(lis[3][1]), int(lis[3][2]) - 50)
-    pixmapItem6.setOffset(int(lis[4][1]), int(lis[4][2]) - 50)
-    print('okay')
-#    rules.update(ui.comboBox.currentText(),num)
+    pixmapItem2.setOffset(int(lis[1][1]), int(lis[1][2]) - 50)
+    pixmapItem3.setOffset(int(lis[2][1]), int(lis[2][2]) - 50)
+    pixmapItem4.setOffset(int(lis[3][1]), int(lis[3][2]) - 50)
+    pixmapItem5.setOffset(int(lis[4][1]), int(lis[4][2]) - 50)
+    pixmapItem6.setOffset(int(lis[5][1]), int(lis[5][2]) - 50)
     ui.comboBox.clear()
 
 
@@ -138,6 +136,7 @@ def but_pushed():
 def det_moves(pos_trans, num):
     for x in range(len(pos_trans)):
         s = pos_trans[x][0] + " " + pos_trans[x][1]
+        print(s)
         ui.comboBox.addItem(s)
     while ui.label.text() != "Move is played":
         QApplication.processEvents()
@@ -147,32 +146,28 @@ def det_moves(pos_trans, num):
     l[0] = nl[0]
     t = tuple(l)
     lis[num] = t
-    play_move(int(num))
 
 
 def start_gui():
-    print("hghgj");
     ui.label.setEnabled(True)
 
-    x1 = int(lis[0][1])
-    y1 = int(lis[0][2])
-    print(x1,y1)
+    x1 = int(lis[1][1])
+    y1 = int(lis[1][2])
 
-    x2 = int(lis[1][1])
-    y2 = int(lis[1][2])
-    print(x2,y2)
+    x2 = int(lis[2][1])
+    y2 = int(lis[2][2])
 
-    x3 = int(lis[2][1])
-    y3 = int(lis[2][2])
+    x3 = int(lis[3][1])
+    y3 = int(lis[3][2])
 
-    x4 = int(lis[3][1])
-    y4 = int(lis[3][2])
+    x4 = int(lis[4][1])
+    y4 = int(lis[4][2])
 
-    x5 = int(lis[4][1])
-    y5 = int(lis[4][2])
+    x5 = int(lis[5][1])
+    y5 = int(lis[5][2])
 
-    xx = int(lis[5][1])
-    xy = int(lis[5][2])
+    xx = int(lis[0][1])
+    xy = int(lis[0][2])
     pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
     pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.gif")
     pix4 = QPixmap(os.getcwd() + "/resources/images/flag3.gif")
@@ -201,15 +196,25 @@ def start_gui():
 
 
 def start_game():
+    global lis1
     client.send(lis1)
-    data1 = client.recv(10)
-    if data1==b'hey':
-    	start_gui()
-    data = client.recv(4096)
-    print(data)
-    global lis
-    #lis = pickle.loads(data)
-    #play_move()
+    start_gui()
+    for y in range(22):
+    	for x in range(6):
+    		if x > 0:
+	    		data = client.recv(4096)
+	    		global lis
+	    		lis = pickle.loads(data)
+	    		lis2 = pickle.dumps(lis)
+	    		client.send(lis2)
+	    		print(lis)
+	    	else:
+	    		labeltext = "Move of Player no." + str(x)
+	    		ui.label.setText(labeltext)
+	    		det_moves(rules.poss_mov_det(lis[x][0],x),x)
+	    		lis1 = pickle.dumps(lis)
+	    		client.send(lis1)
+	    	play_move()
 
 
 

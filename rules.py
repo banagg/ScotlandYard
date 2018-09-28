@@ -28,12 +28,12 @@ def start():
     start4 = random_start[3]
     start5 = random_start[4]
     mr_x = random_start[5]
+    arr.append(cord_node[mr_x])
     arr.append(cord_node[start1])
     arr.append(cord_node[start2])
     arr.append(cord_node[start3])
     arr.append(cord_node[start4])
     arr.append(cord_node[start5])
-    arr.append(cord_node[mr_x])
     return arr
 
 def map():
@@ -64,9 +64,9 @@ for i in range(5):
 card_x = (4,3,3,2,5) # order is taxi bus underground double move and black
 
 def poss_mov_det(curr_pos,det_no):
-    rem_taxi = card_det[det_no-1][0]
-    rem_bus = card_det[det_no-1][1]
-    rem_und = card_det[det_no-1][2]
+    rem_taxi = card_det[det_no][0]
+    rem_bus = card_det[det_no][1]
+    rem_und = card_det[det_no][2]
     graph = map()
     lis = []
     lis = graph[curr_pos]
