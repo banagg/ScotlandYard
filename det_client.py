@@ -6,6 +6,12 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
+localhost = "192.168.43.201"
+port = 8079
+mysocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+mysocket.connect((localhost, port))
+det_no = 1
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -20,6 +26,14 @@ class Ui_MainWindow(object):
         self.gridLayout.setContentsMargins(11, 11, 11, 11)
         self.gridLayout.setSpacing(6)
         self.gridLayout.setObjectName("gridLayout")
+        self.pushButton_3 = QtWidgets.QPushButton(self.centralWidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
+        self.pushButton_3.setSizePolicy(sizePolicy)
+        self.pushButton_3.setObjectName("pushButton_3")
+        self.gridLayout.addWidget(self.pushButton_3, 1, 0, 1, 1)
         self.pushButton = QtWidgets.QPushButton(self.centralWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -29,14 +43,6 @@ class Ui_MainWindow(object):
         self.pushButton.setMinimumSize(QtCore.QSize(400, 0))
         self.pushButton.setObjectName("pushButton")
         self.gridLayout.addWidget(self.pushButton, 1, 4, 1, 1)
-        self.pushButton_3 = QtWidgets.QPushButton(self.centralWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
-        self.pushButton_3.setSizePolicy(sizePolicy)
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.gridLayout.addWidget(self.pushButton_3, 1, 0, 1, 1)
         self.pushButton_4 = QtWidgets.QPushButton(self.centralWidget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -105,8 +111,8 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "Done"))
         self.pushButton_3.setText(_translate("MainWindow", "Detectives"))
+        self.pushButton.setText(_translate("MainWindow", "Done"))
         self.pushButton_4.setText(_translate("MainWindow", "Start Game"))
         self.label.setText(_translate("MainWindow", "TextLabel"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
@@ -122,23 +128,22 @@ class Ui_MainWindow(object):
 lis = rules.start()
 
 def play_move():
-    pixmapItem2.setOffset(int(lis[0][1]), int(lis[0][2]) - 50)
-    pixmapItem3.setOffset(int(lis[1][1]), int(lis[1][2]) - 50)
-    pixmapItem4.setOffset(int(lis[2][1]), int(lis[2][2]) - 50)
-    pixmapItem5.setOffset(int(lis[3][1]), int(lis[3][2]) - 50)
-    pixmapItem6.setOffset(int(lis[4][1]), int(lis[4][2]) - 50)
-#    rules.update(ui.comboBox.currentText(),num)
+    pixmapItem2.setOffset(int(lis[1][1]), int(lis[1][2]) - 50)
+    pixmapItem3.setOffset(int(lis[2][1]), int(lis[2][2]) - 50)
+    pixmapItem4.setOffset(int(lis[3][1]), int(lis[3][2]) - 50)
+    pixmapItem5.setOffset(int(lis[4][1]), int(lis[4][2]) - 50)
+    pixmapItem6.setOffset(int(lis[5][1]), int(lis[5][2]) - 50)
     ui.comboBox.clear()
 
 def but_pushed():
-	ui.label.setText("Move is played")
+    ui.label.setText("Move is played")
 
 def det_moves(pos_trans, num):
     for x in range(len(pos_trans)):
         s = pos_trans[x][0] + " " + pos_trans[x][1]
         ui.comboBox.addItem(s)
     while ui.label.text() != "Move is played":
-    	QApplication.processEvents()
+        QApplication.processEvents()
     ns = ui.comboBox.currentText()
     nl = ns.split (" ")
     l = list(lis[num])
@@ -148,28 +153,31 @@ def det_moves(pos_trans, num):
     l[2] = int(u[1])
     t = tuple(l)
     lis[num] = t
-    play_move()
 
 def start_game():
+    global lis
+    data = mysocket.recv(4096)
+    lis = pickle.loads(data)
+    print (lis)
     ui.label.setEnabled(True)
 
-    x1 = int(lis[0][1])
-    y1 = int(lis[0][2])
+    x1 = int(lis[1][1])
+    y1 = int(lis[1][2])
 
-    x2 = int(lis[1][1])
-    y2 = int(lis[1][2])
+    x2 = int(lis[2][1])
+    y2 = int(lis[2][2])
 
-    x3 = int(lis[2][1])
-    y3 = int(lis[2][2])
+    x3 = int(lis[3][1])
+    y3 = int(lis[3][2])
 
-    x4 = int(lis[3][1])
-    y4 = int(lis[3][2])
+    x4 = int(lis[4][1])
+    y4 = int(lis[4][2])
 
-    x5 = int(lis[4][1])
-    y5 = int(lis[4][2])
+    x5 = int(lis[5][1])
+    y5 = int(lis[5][2])
 
-    xx = int(lis[5][1])
-    xy = int(lis[5][2])
+    xx = int(lis[0][1])
+    xy = int(lis[0][2])
 
     pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
     pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.gif")
@@ -198,18 +206,20 @@ def start_game():
     ui.pushButton_4.setEnabled(False)
     ui.comboBox.setEnabled(True)
 
-    lis1 = pickle.dumps(lis)
-    mysocket.send(lis1)
-    labeltext = "Move of Detective no." + str(1)
-    ui.label.setText(labeltext)
-    det_moves(rules.poss_mov_det(lis[0][0],0),0)
-    lis1 = pickle.dumps(lis)
-    mysocket.send(lis1)
+    for y in range(22):
+        for x in range(6):
+            if x ==  det_no:
+                labeltext = "Move of Detective no." + str(x)
+                ui.label.setText(labeltext)
+                det_moves(rules.poss_mov_det(lis[x][0],x),x)
+                lis1 = pickle.dumps(lis)
+                mysocket.send(lis1)
+            else:
+                data = mysocket.recv(4096)
+                lis = pickle.loads(data)
+                print (lis)
+            play_move()
 
-localhost = "192.168.43.201"
-port = 8079
-mysocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-mysocket.connect((localhost, port))
 
 app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
@@ -231,10 +241,8 @@ ui.label.setEnabled(False)
 #Game has started
 
 ui.pushButton.clicked.connect(but_pushed)
-data = mysocket.recv(4096)
-lis = pickle.loads(data)
+start_game()
 
 MainWindow.show()  # The show() method displays the widget on the screen.
-start_game()
 
 sys.exit(app.exec_())  # Finally, we enter the mainloop of the application.
