@@ -15,7 +15,9 @@ Steps to operate:
     Then save it.
 
 2 - Setting up client
+
     Enter detective number you want to be in det_no.
+
     Enter the ip address of Mr. X in det_client.py
     Then save it.
 
