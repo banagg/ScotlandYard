@@ -5,7 +5,7 @@ This is the computer game for the popular board game Scotland Yard. The rules ca
 
 The player who wants to play as Mr. X has to run mr_x_server.py and the detectives have to run det_client.py
 
-Technologies Used: Python,Sockets,PyQt5,Pickle
+Technologies Used: Python, Sockets, PyQt5, Pickle, Graph Theory
 
 Steps to operate:
 

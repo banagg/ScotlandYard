@@ -122,6 +122,7 @@ lis = rules.start()
 lis1 = pickle.dumps(lis)
 
 def play_move():
+    pixmapItem0.setOffset(int(lis[0][1]), int(lis[0][2]) - 50)
     pixmapItem2.setOffset(int(lis[1][1]), int(lis[1][2]) - 50)
     pixmapItem3.setOffset(int(lis[2][1]), int(lis[2][2]) - 50)
     pixmapItem4.setOffset(int(lis[3][1]), int(lis[3][2]) - 50)
@@ -168,22 +169,27 @@ def start_gui():
 
     xx = int(lis[0][1])
     xy = int(lis[0][2])
+    pix0 = QPixmap(os.getcwd() + "/resources/images/flag0.gif")
     pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
     pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.gif")
     pix4 = QPixmap(os.getcwd() + "/resources/images/flag3.gif")
     pix5 = QPixmap(os.getcwd() + "/resources/images/flag4.gif")
     pix6 = QPixmap(os.getcwd() + "/resources/images/flag5.gif")
 
+    global pixmapItem0
     global pixmapItem2
     global pixmapItem3
     global pixmapItem4
     global pixmapItem5
     global pixmapItem6
+    pixmapItem0 = scene.addPixmap(pix1)
     pixmapItem2 = scene.addPixmap(pix2)
     pixmapItem3 = scene.addPixmap(pix3)
     pixmapItem4 = scene.addPixmap(pix4)
     pixmapItem5 = scene.addPixmap(pix5)
     pixmapItem6 = scene.addPixmap(pix6)
+
+    pixmapItem0.setOffset(xx,yy-50)
     pixmapItem2.setOffset(x1,y1-50)
     pixmapItem3.setOffset(x2,y2-50)
     pixmapItem4.setOffset(x3,y3-50)
