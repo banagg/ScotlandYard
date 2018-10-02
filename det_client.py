@@ -127,7 +127,12 @@ class Ui_MainWindow(object):
 
 lis = rules.start()
 
-def play_move():
+def play_move(y, x):
+    if x == 0 and y == 3:
+        pixmapItem0 = scene.addPixmap(pix0)
+    if y == 3 or y == 8 or y == 13 or y == 18:
+        pixmapItem0.setOffset(int(lis[0][1]), int(lis[0][2]) - 50)
+
     pixmapItem2.setOffset(int(lis[1][1]), int(lis[1][2]) - 50)
     pixmapItem3.setOffset(int(lis[2][1]), int(lis[2][2]) - 50)
     pixmapItem4.setOffset(int(lis[3][1]), int(lis[3][2]) - 50)
@@ -179,12 +184,14 @@ def start_game():
     xx = int(lis[0][1])
     xy = int(lis[0][2])
 
+    pix0 = QPixmap(os.getcwd() + "/resources/images/flag0.gif")
     pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
     pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.gif")
     pix4 = QPixmap(os.getcwd() + "/resources/images/flag3.gif")
     pix5 = QPixmap(os.getcwd() + "/resources/images/flag4.gif")
     pix6 = QPixmap(os.getcwd() + "/resources/images/flag5.gif")
 
+    global pixmapItem0
     global pixmapItem2
     global pixmapItem3
     global pixmapItem4
@@ -218,7 +225,9 @@ def start_game():
                 data = mysocket.recv(4096)
                 lis = pickle.loads(data)
                 print (lis)
-            play_move()
+            play_move(y, x)
+    pixmapItem0.setOffset(int(lis[0][1]), int(lis[0][2]) - 50)
+
 
 
 app = QtWidgets.QApplication(sys.argv)
