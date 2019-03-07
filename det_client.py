@@ -1,12 +1,12 @@
 import rules
 import socket, pickle
 from PyQt5 import QtCore, QtGui, QtWidgets
-import os, sys
+import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-from gui import Ui_MainWindow
 import threading
+import gui
 
 def ccreate():
     localhost = "127.0.0.1"
@@ -22,14 +22,8 @@ def ccreate():
 def gcreate():
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    gcreate.ui = Ui_MainWindow()
+    gcreate.ui = gui.Ui_MainWindow()
     gcreate.ui.setupUi(MainWindow)
-
-    gcreate.scene = QGraphicsScene()
-    gcreate.ui.graphicsView.setScene(gcreate.scene)
-
-    pix1 = QPixmap(os.getcwd() + "/resources/images/map.jpg")
-    pixmapItem1 = gcreate.scene.addPixmap(pix1)
 
     gcreate.ui.pushButton.setEnabled(False)
     gcreate.ui.pushButton_3.setEnabled(False)
@@ -59,18 +53,11 @@ def gcreate():
     xx = int(ccreate.lis[0][1])
     xy = int(ccreate.lis[0][2])
 
-    pix0 = QPixmap(os.getcwd() + "/resources/images/flag0.gif")
-    pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
-    pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.gif")
-    pix4 = QPixmap(os.getcwd() + "/resources/images/flag3.gif")
-    pix5 = QPixmap(os.getcwd() + "/resources/images/flag4.gif")
-    pix6 = QPixmap(os.getcwd() + "/resources/images/flag5.gif")
-
-    gcreate.pixmapItem2 = gcreate.scene.addPixmap(pix2)
-    gcreate.pixmapItem3 = gcreate.scene.addPixmap(pix3)
-    gcreate.pixmapItem4 = gcreate.scene.addPixmap(pix4)
-    gcreate.pixmapItem5 = gcreate.scene.addPixmap(pix5)
-    gcreate.pixmapItem6 = gcreate.scene.addPixmap(pix6)
+    gcreate.pixmapItem2 = gcreate.ui.scene.addPixmap(gcreate.ui.pix2)
+    gcreate.pixmapItem3 = gcreate.ui.scene.addPixmap(gcreate.ui.pix3)
+    gcreate.pixmapItem4 = gcreate.ui.scene.addPixmap(gcreate.ui.pix4)
+    gcreate.pixmapItem5 = gcreate.ui.scene.addPixmap(gcreate.ui.pix5)
+    gcreate.pixmapItem6 = gcreate.ui.scene.addPixmap(gcreate.ui.pix6)
 
     gcreate.pixmapItem2.setOffset(x1,y1-50)
     gcreate.pixmapItem3.setOffset(x2,y2-50)

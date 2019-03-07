@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-import sys
+import sys, os
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
@@ -97,6 +97,17 @@ class Ui_MainWindow(object):
         self.menuBar.addAction(self.menuGame_Mode.menuAction())
         self.menuBar.addAction(self.menuHelp.menuAction())
 
+        self.scene = QGraphicsScene()
+        self.graphicsView.setScene(self.scene)
+        self.pix0 = QPixmap(os.getcwd() + "/resources/images/map.jpg")
+        self.pix1 = QPixmap(os.getcwd() + "/resources/images/flag0.gif")
+        self.pix2 = QPixmap(os.getcwd() + "/resources/images/flag1.gif")
+        self.pix3 = QPixmap(os.getcwd() + "/resources/images/flag2.gif")
+        self.pix4 = QPixmap(os.getcwd() + "/resources/images/flag3.gif")
+        self.pix5 = QPixmap(os.getcwd() + "/resources/images/flag4.gif")
+        self.pix6 = QPixmap(os.getcwd() + "/resources/images/flag5.gif")
+        self.pixmapItem0 = self.scene.addPixmap(self.pix0)
+        
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
