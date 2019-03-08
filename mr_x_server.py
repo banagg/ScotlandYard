@@ -28,13 +28,7 @@ class Window(QMainWindow, gui.Ui_MainWindow):
         self.pixmapItem4 = self.scene.addPixmap(self.pix4)
         self.pixmapItem5 = self.scene.addPixmap(self.pix5)
         self.pixmapItem6 = self.scene.addPixmap(self.pix6)
-
-        self.pixmapItem1.setOffset(int(self.lis[0][1]),int(self.lis[0][2])-50)
-        self.pixmapItem2.setOffset(int(self.lis[1][1]),int(self.lis[1][2])-50)
-        self.pixmapItem3.setOffset(int(self.lis[2][1]),int(self.lis[2][2])-50)
-        self.pixmapItem4.setOffset(int(self.lis[3][1]),int(self.lis[3][2])-50)
-        self.pixmapItem5.setOffset(int(self.lis[4][1]),int(self.lis[4][2])-50)
-        self.pixmapItem6.setOffset(int(self.lis[5][1]),int(self.lis[5][2])-50)
+        self.play_move()
 
         self.pushButton.setEnabled(True)
         self.pushButton_3.setEnabled(True)
