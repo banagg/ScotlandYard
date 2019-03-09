@@ -35,7 +35,7 @@ class Window(QMainWindow, gui.Ui_MainWindow):
         self.pushButton_4.setEnabled(False)
         self.comboBox.setEnabled(True)
 
-        e3.set()
+        e1.set()
 
     def but_pushed(self):
         self.label.setText("Move is played")
@@ -53,7 +53,7 @@ class Window(QMainWindow, gui.Ui_MainWindow):
         labeltext = "Move of Player no." + str(x)
         self.label.setText(labeltext)
         self.det_moves(rules.poss_mov_det(self.lis[x][0],x),x)
-        e4.set()
+        e2.set()
 
     def det_moves(self, pos_trans, num):
         for x in range(len(pos_trans)):
@@ -77,13 +77,10 @@ class WorkerThread(QThread):
     def run(self):
         for y in range(22):
             for x in range(6):
-                e1.set()
-                e2.wait()
                 if x == 0:
                     self.sig2.emit(x)
-                e4.wait()
+                e2.wait()
                 self.sig1.emit()
-                e4.clear()
                 e2.clear()
 
 def screate():
@@ -109,27 +106,23 @@ def gcreate():
     sys.exit(app.exec_())  # Finally, we enter the mainloop of the application.
 
 def ncreate():
-    e3.wait()
     lis1 = pickle.dumps(gcreate.ui.lis)
     screate.client.send(lis1)
     for y in range(22):
         for x in range(6):
-            e1.wait()
             if x > 0:
                 data = screate.client.recv(4096)
                 gcreate.ui.lis = pickle.loads(data)
                 lis2 = pickle.dumps(gcreate.ui.lis)
                 screate.client.send(lis2)
+                e2.set()
             else:
+                e2.wait()
                 lis1 = pickle.dumps(gcreate.ui.lis)
                 screate.client.send(lis1)
-            e1.clear()
-            e2.set()
 
 e1 = threading.Event()
 e2 = threading.Event()
-e3 = threading.Event()
-e4 = threading.Event()
 
 t1 = threading.Thread(target = screate)
 t2 = threading.Thread(target = gcreate)
@@ -138,7 +131,7 @@ t3 = threading.Thread(target = ncreate)
 t1.start()
 t1.join()
 t2.start()
-t3.start()
 
-e3.wait()
+e1.wait()
+t3.start()
 gcreate.ui.workerthread.start()
