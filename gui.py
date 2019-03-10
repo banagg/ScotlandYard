@@ -107,13 +107,16 @@ class Ui_MainWindow(object):
         self.pix5 = QPixmap(os.getcwd() + "/resources/images/flag4.gif")
         self.pix6 = QPixmap(os.getcwd() + "/resources/images/flag5.gif")
         self.pixmapItem0 = self.scene.addPixmap(self.pix0)
+
+        self.actionExit.triggered.connect(self.exit_pushed)
+        self.actionAbout.triggered.connect(self.about_pushed)
         
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "ScotlandYardv3.0"))
         self.pushButton.setText(_translate("MainWindow", "Done"))
         self.pushButton_3.setText(_translate("MainWindow", "Detectives"))
         self.pushButton_4.setText(_translate("MainWindow", "Start Game"))
@@ -127,3 +130,9 @@ class Ui_MainWindow(object):
         self.actionAbout.setText(_translate("MainWindow", "About"))
         self.actionPlayer_v_Player.setText(_translate("MainWindow", "Player v Player"))
         self.actionPlayer_v_Computer.setText(_translate("MainWindow", "Player v Computer"))
+
+    def exit_pushed(self):
+        sys.exit()
+
+    def about_pushed(self):
+        QMessageBox.information(self, "Know the Developers", "This game was developed by Abhijeet Rai & Anurag Bansal.")
