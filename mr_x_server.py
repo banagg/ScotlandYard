@@ -120,6 +120,7 @@ def ncreate():
                 e2.wait()
                 lis1 = pickle.dumps(gcreate.ui.lis)
                 screate.client.send(lis1)
+            e2.clear()
 
 e1 = threading.Event()
 e2 = threading.Event()
