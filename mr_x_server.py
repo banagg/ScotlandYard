@@ -9,6 +9,7 @@ import threading
 import gui
 
 class Window(QMainWindow, gui.Ui_MainWindow):
+    #PyQT main window widget for all components
     def __init__(self, parent=None):
         super(Window, self).__init__(parent)
         self.lis = rules.start()
