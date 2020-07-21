@@ -4,9 +4,10 @@ import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-import socket,pickle
+import socket, pickle
 import threading
 import gui
+
 
 class Window(QMainWindow, gui.Ui_MainWindow):
     def __init__(self, parent=None):
@@ -41,18 +42,18 @@ class Window(QMainWindow, gui.Ui_MainWindow):
         self.label.setText("Move is played")
 
     def play_move(self):
-        self.pixmapItem1.setOffset(int(self.lis[0][1]),int(self.lis[0][2])-50)
-        self.pixmapItem2.setOffset(int(self.lis[1][1]),int(self.lis[1][2])-50)
-        self.pixmapItem3.setOffset(int(self.lis[2][1]),int(self.lis[2][2])-50)
-        self.pixmapItem4.setOffset(int(self.lis[3][1]),int(self.lis[3][2])-50)
-        self.pixmapItem5.setOffset(int(self.lis[4][1]),int(self.lis[4][2])-50)
-        self.pixmapItem6.setOffset(int(self.lis[5][1]),int(self.lis[5][2])-50)
+        self.pixmapItem1.setOffset(int(self.lis[0][1]), int(self.lis[0][2]) - 50)
+        self.pixmapItem2.setOffset(int(self.lis[1][1]), int(self.lis[1][2]) - 50)
+        self.pixmapItem3.setOffset(int(self.lis[2][1]), int(self.lis[2][2]) - 50)
+        self.pixmapItem4.setOffset(int(self.lis[3][1]), int(self.lis[3][2]) - 50)
+        self.pixmapItem5.setOffset(int(self.lis[4][1]), int(self.lis[4][2]) - 50)
+        self.pixmapItem6.setOffset(int(self.lis[5][1]), int(self.lis[5][2]) - 50)
         self.comboBox.clear()
 
     def find_move(self, x):
         labeltext = "Move of Player no." + str(x)
         self.label.setText(labeltext)
-        self.det_moves(rules.poss_mov_det(self.lis[x][0],x),x)
+        self.det_moves(rules.poss_mov_det(self.lis[x][0], x), x)
         e2.set()
 
     def det_moves(self, pos_trans, num):
@@ -63,9 +64,10 @@ class Window(QMainWindow, gui.Ui_MainWindow):
         while self.label.text() != "Move is played":
             QApplication.processEvents()
         ns = self.comboBox.currentText()
-        nl = ns.split (" ")
+        nl = ns.split(" ")
         t = rules.cord_node[int(nl[0])]
         self.lis[num] = t
+
 
 class WorkerThread(QThread):
     sig1 = QtCore.pyqtSignal()
@@ -83,14 +85,16 @@ class WorkerThread(QThread):
                 self.sig1.emit()
                 e2.clear()
 
+
 def screate():
     host = "127.0.0.1"
     port = 8080
     serverSocket = socket.socket()
     serverSocket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    serverSocket.bind((host,port))
+    serverSocket.bind((host, port))
     serverSocket.listen(5)
-    (screate.client,(ip,port)) = serverSocket.accept()
+    (screate.client, (ip, port)) = serverSocket.accept()
+
 
 def gcreate():
     app = QtWidgets.QApplication(sys.argv)
@@ -101,9 +105,10 @@ def gcreate():
     gcreate.ui.comboBox.setEnabled(False)
     gcreate.ui.label.setText("Start the Game")
     gcreate.ui.label.setEnabled(False)
-    
+
     gcreate.ui.show()  # The show() method displays the widget on the screen.
     sys.exit(app.exec_())  # Finally, we enter the mainloop of the application.
+
 
 def ncreate():
     lis1 = pickle.dumps(gcreate.ui.lis)
@@ -122,12 +127,13 @@ def ncreate():
                 screate.client.send(lis1)
             e2.clear()
 
+
 e1 = threading.Event()
 e2 = threading.Event()
 
-t1 = threading.Thread(target = screate)
-t2 = threading.Thread(target = gcreate)
-t3 = threading.Thread(target = ncreate)
+t1 = threading.Thread(target=screate)
+t2 = threading.Thread(target=gcreate)
+t3 = threading.Thread(target=ncreate)
 
 t1.start()
 t1.join()

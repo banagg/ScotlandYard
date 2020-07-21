@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -19,7 +20,9 @@ class Ui_MainWindow(object):
         self.gridLayout.setSpacing(6)
         self.gridLayout.setObjectName("gridLayout")
         self.pushButton = QtWidgets.QPushButton(self.centralWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
@@ -28,7 +31,9 @@ class Ui_MainWindow(object):
         self.pushButton.setObjectName("pushButton")
         self.gridLayout.addWidget(self.pushButton, 1, 4, 1, 1)
         self.pushButton_3 = QtWidgets.QPushButton(self.centralWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.pushButton_3.sizePolicy().hasHeightForWidth())
@@ -36,7 +41,9 @@ class Ui_MainWindow(object):
         self.pushButton_3.setObjectName("pushButton_3")
         self.gridLayout.addWidget(self.pushButton_3, 1, 0, 1, 1)
         self.pushButton_4 = QtWidgets.QPushButton(self.centralWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.pushButton_4.sizePolicy().hasHeightForWidth())
@@ -47,7 +54,9 @@ class Ui_MainWindow(object):
         self.graphicsView.setObjectName("graphicsView")
         self.gridLayout.addWidget(self.graphicsView, 0, 0, 1, 5)
         self.comboBox = QtWidgets.QComboBox(self.centralWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.comboBox.sizePolicy().hasHeightForWidth())
@@ -55,7 +64,9 @@ class Ui_MainWindow(object):
         self.comboBox.setObjectName("comboBox")
         self.gridLayout.addWidget(self.comboBox, 1, 3, 1, 1)
         self.label = QtWidgets.QLabel(self.centralWidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.label.sizePolicy().hasHeightForWidth())
@@ -110,7 +121,7 @@ class Ui_MainWindow(object):
 
         self.actionExit.triggered.connect(self.exit_pushed)
         self.actionAbout.triggered.connect(self.about_pushed)
-        
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -129,10 +140,16 @@ class Ui_MainWindow(object):
         self.actionRules.setText(_translate("MainWindow", "Rules"))
         self.actionAbout.setText(_translate("MainWindow", "About"))
         self.actionPlayer_v_Player.setText(_translate("MainWindow", "Player v Player"))
-        self.actionPlayer_v_Computer.setText(_translate("MainWindow", "Player v Computer"))
+        self.actionPlayer_v_Computer.setText(
+            _translate("MainWindow", "Player v Computer")
+        )
 
     def exit_pushed(self):
         sys.exit()
 
     def about_pushed(self):
-        QMessageBox.information(self, "Know the Developers", "This game was developed by Abhijeet Rai & Anurag Bansal.")
+        QMessageBox.information(
+            self,
+            "Know the Developers",
+            "This game was developed by Abhijeet Rai & Anurag Bansal.",
+        )

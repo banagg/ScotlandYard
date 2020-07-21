@@ -10,6 +10,7 @@ import gui
 
 det_no = 1
 
+
 class Window(QMainWindow, gui.Ui_MainWindow):
     def __init__(self, parent=None):
         super(Window, self).__init__(parent)
@@ -30,11 +31,11 @@ class Window(QMainWindow, gui.Ui_MainWindow):
         self.pixmapItem5 = self.scene.addPixmap(self.pix5)
         self.pixmapItem6 = self.scene.addPixmap(self.pix6)
 
-        self.pixmapItem2.setOffset(int(self.lis[1][1]),int(self.lis[1][2])-50)
-        self.pixmapItem3.setOffset(int(self.lis[2][1]),int(self.lis[2][2])-50)
-        self.pixmapItem4.setOffset(int(self.lis[3][1]),int(self.lis[3][2])-50)
-        self.pixmapItem5.setOffset(int(self.lis[4][1]),int(self.lis[4][2])-50)
-        self.pixmapItem6.setOffset(int(self.lis[5][1]),int(self.lis[5][2])-50)
+        self.pixmapItem2.setOffset(int(self.lis[1][1]), int(self.lis[1][2]) - 50)
+        self.pixmapItem3.setOffset(int(self.lis[2][1]), int(self.lis[2][2]) - 50)
+        self.pixmapItem4.setOffset(int(self.lis[3][1]), int(self.lis[3][2]) - 50)
+        self.pixmapItem5.setOffset(int(self.lis[4][1]), int(self.lis[4][2]) - 50)
+        self.pixmapItem6.setOffset(int(self.lis[5][1]), int(self.lis[5][2]) - 50)
 
     def but_pushed(self):
         self.label.setText("Move is played")
@@ -43,23 +44,23 @@ class Window(QMainWindow, gui.Ui_MainWindow):
         if x == 0 and y == 3:
             self.pixmapItem1 = self.scene.addPixmap(self.pix1)
         if y == 3 or y == 8 or y == 13 or y == 18:
-            self.pixmapItem1.setOffset(int(self.lis[0][1]),int(self.lis[0][2])-50)
+            self.pixmapItem1.setOffset(int(self.lis[0][1]), int(self.lis[0][2]) - 50)
 
-        self.pixmapItem2.setOffset(int(self.lis[1][1]),int(self.lis[1][2])-50)
-        self.pixmapItem3.setOffset(int(self.lis[2][1]),int(self.lis[2][2])-50)
-        self.pixmapItem4.setOffset(int(self.lis[3][1]),int(self.lis[3][2])-50)
-        self.pixmapItem5.setOffset(int(self.lis[4][1]),int(self.lis[4][2])-50)
-        self.pixmapItem6.setOffset(int(self.lis[5][1]),int(self.lis[5][2])-50)
+        self.pixmapItem2.setOffset(int(self.lis[1][1]), int(self.lis[1][2]) - 50)
+        self.pixmapItem3.setOffset(int(self.lis[2][1]), int(self.lis[2][2]) - 50)
+        self.pixmapItem4.setOffset(int(self.lis[3][1]), int(self.lis[3][2]) - 50)
+        self.pixmapItem5.setOffset(int(self.lis[4][1]), int(self.lis[4][2]) - 50)
+        self.pixmapItem6.setOffset(int(self.lis[5][1]), int(self.lis[5][2]) - 50)
         self.comboBox.clear()
 
     def find_move(self, x):
         labeltext = "Move of Player no." + str(x)
         self.label.setText(labeltext)
-        self.det_moves(rules.poss_mov_det(self.lis[x][0],x),x)
+        self.det_moves(rules.poss_mov_det(self.lis[x][0], x), x)
         e1.set()
 
     def final_move():
-        self.pixmapItem1.setOffset(int(self.lis[0][1]),int(self.lis[0][2])-50)
+        self.pixmapItem1.setOffset(int(self.lis[0][1]), int(self.lis[0][2]) - 50)
 
     def det_moves(self, pos_trans, num):
         for x in range(len(pos_trans)):
@@ -69,9 +70,10 @@ class Window(QMainWindow, gui.Ui_MainWindow):
         while self.label.text() != "Move is played":
             QApplication.processEvents()
         ns = self.comboBox.currentText()
-        nl = ns.split (" ")
+        nl = ns.split(" ")
         t = rules.cord_node[int(nl[0])]
         self.lis[num] = t
+
 
 class WorkerThread(QThread):
     sig1 = QtCore.pyqtSignal(int, int)
@@ -94,6 +96,7 @@ class WorkerThread(QThread):
                 e1.clear()
         self.sig3.emit()
 
+
 def screate():
     localhost = "127.0.0.1"
     port = 8080
@@ -104,6 +107,7 @@ def screate():
     data = screate.mysocket.recv(4096)
     gcreate.ui.lis = pickle.loads(data)
     e1.set()
+
 
 def gcreate():
     app = QtWidgets.QApplication(sys.argv)
@@ -118,10 +122,11 @@ def gcreate():
     gcreate.ui.show()
     sys.exit(app.exec_())
 
+
 def ncreate():
     for y in range(22):
         for x in range(6):
-            if x ==  det_no:
+            if x == det_no:
                 e1.wait()
                 lis1 = pickle.dumps(gcreate.ui.lis)
                 screate.mysocket.send(lis1)
@@ -132,13 +137,14 @@ def ncreate():
                 e1.set()
             e1.clear()
 
+
 e1 = threading.Event()
 e2 = threading.Event()
 e3 = threading.Event()
 
-t1 = threading.Thread(target = screate)
-t2 = threading.Thread(target = gcreate)
-t3 = threading.Thread(target = ncreate)
+t1 = threading.Thread(target=screate)
+t2 = threading.Thread(target=gcreate)
+t3 = threading.Thread(target=ncreate)
 
 t1.start()
 t2.start()
